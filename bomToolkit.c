@@ -1,7 +1,7 @@
 #include "bom.h"
 
 void usage(char *executable) {
-    printf("Usage: %s <filePath> c - to check for BOM.\n", executable);
+    printf("Usage:\n%s <filePath> c - to check for BOM.\n", executable);
     printf("%s <filePath> r - to remove BOM.\n", executable);
     printf("%s <filePath> a - to add BOM.\n", executable);
 }
