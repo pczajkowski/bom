@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#define NOBOM 0
-#define HASBOM 1
-#define ERROR 2
-#define SUCCESS 3
+enum { NOBOM, HASBOM, ERROR, SUCCESS };
 
-int checkBOM(char *filePath);
-int removeBOM(char *filePath);
-int addBOM(char *filePath);
+int checkBOM(const char *filePath);
+int removeBOM(const char *filePath);
+int addBOM(const char *filePath);
