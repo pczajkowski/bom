@@ -1,4 +1,4 @@
-CFLAGS=-g -Wall -Wextra -O3 -std=gnu99
+CFLAGS=-g -Wall -Wextra -O3 -std=c99
 objects=bom.o
 mingw=x86_64-w64-mingw32-gcc
 
