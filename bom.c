@@ -3,7 +3,7 @@
 #define BOMSIZE 3
 unsigned char bom[] = { 0xEF, 0xBB, 0xBF };
 
-int checkBOM(char *filePath) {
+int checkBOM(const char *filePath) {
 	FILE *inputFile = fopen(filePath, "r");
 	if (inputFile == NULL) return ERROR;
 
@@ -20,7 +20,7 @@ int checkBOM(char *filePath) {
 
 char *tempFileName = "tempFile";
 
-int removeBOM(char *filePath) {
+int removeBOM(const char *filePath) {
 	if (NOBOM == checkBOM(filePath)) return SUCCESS;
 
 	FILE *inputFile = fopen(filePath, "r");
@@ -45,7 +45,7 @@ int removeBOM(char *filePath) {
 	return SUCCESS;
 }
 
-int addBOM(char *filePath) {
+int addBOM(const char *filePath) {
 	if (HASBOM == checkBOM(filePath)) return SUCCESS;
 
 	FILE *inputFile = fopen(filePath, "r");
