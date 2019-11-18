@@ -1,6 +1,7 @@
 #include "bom.h"
 
 #define BOMSIZE 3
+#define CHUNKSIZE 1024
 unsigned char bom[] = { 0xEF, 0xBB, 0xBF };
 
 int checkBOM(const char *filePath) {
@@ -29,13 +30,14 @@ int removeBOM(const char *filePath) {
 	if (fseek(inputFile, BOMSIZE, SEEK_SET)) return ERROR;
 
 	FILE *tempFile = fopen(tempFileName, "w");
-	if (tempFile== NULL) return ERROR;
+	if (tempFile == NULL) return ERROR;
 
-	int c = fgetc(inputFile);
-	while (c != EOF) {
-		if (EOF == fputc(c, tempFile)) return ERROR;
-		c = fgetc(inputFile);
-	}
+	char buffer[CHUNKSIZE];
+	do {
+		int read = fread(buffer, 1, CHUNKSIZE, inputFile);
+		fwrite(buffer, 1, read, tempFile);
+	} while (!feof(inputFile));
+	
 	if (fclose(tempFile)) return ERROR;
 	if (fclose(inputFile)) return ERROR;
 
