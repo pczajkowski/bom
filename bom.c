@@ -56,14 +56,15 @@ int addBOM(const char *filePath) {
 	FILE *tempFile = fopen(tempFileName, "w");
 	if (tempFile== NULL) return ERROR;
 
-	for (int i = 0; i < BOMSIZE; i++)
-		if (EOF == fputc(bom[i], tempFile)) return ERROR;
+	int written = fwrite(bom, 1, BOMSIZE, tempFile);
+	if (written != BOMSIZE) return ERROR;
 
-	int c = fgetc(inputFile);
-	while (c != EOF) {
-		if (EOF == fputc(c, tempFile)) return ERROR;
-		c = fgetc(inputFile);
-	}
+	char buffer[CHUNKSIZE];
+	do {
+		int read = fread(buffer, 1, CHUNKSIZE, inputFile);
+		fwrite(buffer, 1, read, tempFile);
+	} while (!feof(inputFile));
+
 	if (fclose(tempFile)) return ERROR;
 	if (fclose(inputFile)) return ERROR;
 
