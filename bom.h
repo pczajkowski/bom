@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-enum { NOBOM, HASBOM, ERROR, SUCCESS };
+enum { NOBOM, HASBOM, SUCCESS, ERROROPENINPUT, ERROROPENTEMP, ERRORINPUT, ERROROUTPUT, ERRORREMOVE, ERRORRENAME, ERRORCLOSEINPUT, ERRORCLOSETEMP, ERRORSEEK};
 
 int checkBOM(const char *filePath);
 int removeBOM(const char *filePath);

@@ -14,7 +14,6 @@ char *fileBOMRemoval = "./testRemove";
 
 void testRemoveBOM(void) {
 	int result = removeBOM(fileBOMRemoval);
-	assert(ERROR != result);
 	assert(SUCCESS == result);
 	assert(NOBOM == checkBOM(fileBOMRemoval));
 }
@@ -23,7 +22,6 @@ char *fileBOMAddition = "./testAdd";
 
 void testAddBOM(void) {
 	int result = addBOM(fileBOMAddition);
-	assert(ERROR != result);
 	assert(SUCCESS == result);
 	assert(HASBOM == checkBOM(fileBOMAddition));
 }
