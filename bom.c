@@ -19,7 +19,7 @@ int checkBOM(const char *filePath) {
 	return NOBOM;
 }
 
-char *tempFileName = "tempFile";
+const char *tempFileName = "tempFile";
 
 int removeBOM(const char *filePath) {
 	if (NOBOM == checkBOM(filePath)) return SUCCESS;
@@ -34,8 +34,16 @@ int removeBOM(const char *filePath) {
 
 	char buffer[CHUNKSIZE];
 	do {
-		int read = fread(buffer, 1, CHUNKSIZE, inputFile);
-		fwrite(buffer, 1, read, tempFile);
+		size_t read = fread(buffer, 1, CHUNKSIZE, inputFile);
+		
+		size_t written = fwrite(buffer, 1, read, tempFile);
+		if (written != read) {
+			fclose(tempFile);
+			fclose(inputFile);
+			remove(tempFileName);
+			
+			return ERRORWRITINGTEMP;
+		}
 	} while (!feof(inputFile));
 	
 	if (fclose(tempFile)) return ERRORCLOSETEMP;
@@ -56,13 +64,21 @@ int addBOM(const char *filePath) {
 	FILE *tempFile = fopen(tempFileName, "w");
 	if (tempFile== NULL) return ERROROPENTEMP;
 
-	int written = fwrite(bom, 1, BOMSIZE, tempFile);
+	size_t written = fwrite(bom, 1, BOMSIZE, tempFile);
 	if (written != BOMSIZE) return ERROROUTPUT;
 
 	char buffer[CHUNKSIZE];
 	do {
-		int read = fread(buffer, 1, CHUNKSIZE, inputFile);
-		fwrite(buffer, 1, read, tempFile);
+		size_t read = fread(buffer, 1, CHUNKSIZE, inputFile);
+
+		written = fwrite(buffer, 1, read, tempFile);
+		if (written != read) {
+			fclose(tempFile);
+			fclose(inputFile);
+			remove(tempFileName);
+			
+			return ERRORWRITINGTEMP;
+		}
 	} while (!feof(inputFile));
 
 	if (fclose(tempFile)) return ERRORCLOSETEMP;
