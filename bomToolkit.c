@@ -35,6 +35,9 @@ void reportError(int errorType) {
 		case ERRORSEEK:
 			puts("Error seeking input file!");
 			break;
+		case ERRORWRITINGTEMP:
+			puts("Error writing to temp file!");
+			break;
 		default:
 			printf("Unrecognized error: %d\n", errorType);
 	}
