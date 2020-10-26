@@ -9,34 +9,34 @@ void usage(char *executable) {
 void reportError(int errorType) {
 	switch(errorType) {
 		case ERROROPENINPUT:
-			puts("Error opening input file!");
+			perror("Error opening input file");
 			break;
 		case ERROROPENTEMP:
-			puts("Error opening temp file!");
+			perror("Error opening temp file");
 			break;
 		case ERRORINPUT:
-			puts("Error reading input file!");
+			perror("Error reading input file");
 			break;
 		case ERROROUTPUT:
-			puts("Error writing temp file!");
+			perror("Error writing temp file");
 			break;
 		case ERRORREMOVE:
-			puts("Error removing input file!");
+			perror("Error removing input file");
 			break;
 		case ERRORRENAME:
-			puts("Error renaming temp file!");
+			perror("Error renaming temp file");
 			break;
 		case ERRORCLOSEINPUT:
-			puts("Error closing input file!");
+			perror("Error closing input file");
 			break;
 		case ERRORCLOSETEMP:
-			puts("Error closing temp file!");
+			perror("Error closing temp file");
 			break;
 		case ERRORSEEK:
-			puts("Error seeking input file!");
+			perror("Error seeking input file");
 			break;
 		case ERRORWRITINGTEMP:
-			puts("Error writing to temp file!");
+			perror("Error writing to temp file");
 			break;
 		default:
 			printf("Unrecognized error: %d\n", errorType);
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
 	if (argc < 3) {
 		usage(argv[0]);
 		return 1;
-	} 
+	}
 
 	char *inputFileName = argv[1];
 
