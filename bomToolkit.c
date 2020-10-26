@@ -50,19 +50,26 @@ int main(int argc, char **argv) {
 	}
 
 	char *inputFileName = argv[1];
+	int result;
 
-	if (strcmp(argv[2], "c") == 0) {
-		int result = checkBOM(inputFileName);
-		result == HASBOM ? printf("%s has BOM.\n", inputFileName) :
-			result == NOBOM ? printf("%s has no BOM.\n", inputFileName) : reportError(result);
-	}
-	if (strcmp(argv[2], "r") == 0) {
-		int result = removeBOM(inputFileName);
-		result == SUCCESS ? printf("BOM removed from %s.\n", inputFileName) : reportError(result);
-	}
-	if (strcmp(argv[2], "a") == 0) {
-		int result = addBOM(inputFileName);
-		result == SUCCESS ? printf("BOM added to %s.\n", inputFileName) : reportError(result);
+	switch(argv[2][0]) {
+		case 'c':
+			result = checkBOM(inputFileName);
+			result == HASBOM ? printf("%s has BOM.\n", inputFileName) :
+				result == NOBOM ? printf("%s has no BOM.\n", inputFileName) : reportError(result);
+			break;
+		case 'r':
+			result = removeBOM(inputFileName);
+			result == SUCCESS ? printf("BOM removed from %s.\n", inputFileName) : reportError(result);
+			break;
+		case 'a':
+			result = addBOM(inputFileName);
+			result == SUCCESS ? printf("BOM added to %s.\n", inputFileName) : reportError(result);
+			break;
+		default:
+			puts("No such option!");
+			usage(argv[0]);
+			return 1;
 	}
 
 	return 0;
