@@ -35,17 +35,17 @@ int removeBOM(const char *filePath) {
 	char buffer[CHUNKSIZE];
 	do {
 		size_t read = fread(buffer, 1, CHUNKSIZE, inputFile);
-		
+
 		size_t written = fwrite(buffer, 1, read, tempFile);
 		if (written != read) {
 			fclose(tempFile);
 			fclose(inputFile);
 			remove(tempFileName);
-			
+
 			return ERRORWRITINGTEMP;
 		}
 	} while (!feof(inputFile));
-	
+
 	if (fclose(tempFile)) return ERRORCLOSETEMP;
 	if (fclose(inputFile)) return ERRORCLOSEINPUT;
 
@@ -68,7 +68,7 @@ int addBOM(const char *filePath) {
 	if (written != BOMSIZE) return ERROROUTPUT;
 
 	char buffer[CHUNKSIZE];
-	do {
+	while(1) {
 		size_t read = fread(buffer, 1, CHUNKSIZE, inputFile);
 
 		written = fwrite(buffer, 1, read, tempFile);
@@ -76,10 +76,12 @@ int addBOM(const char *filePath) {
 			fclose(tempFile);
 			fclose(inputFile);
 			remove(tempFileName);
-			
+
 			return ERRORWRITINGTEMP;
 		}
-	} while (!feof(inputFile));
+
+		if (feof(inputFile)) break;
+	}
 
 	if (fclose(tempFile)) return ERRORCLOSETEMP;
 	if (fclose(inputFile)) return ERRORCLOSEINPUT;
