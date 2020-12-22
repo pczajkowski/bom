@@ -33,7 +33,7 @@ int removeBOM(const char *filePath) {
 	if (tempFile == NULL) return ERROROPENTEMP;
 
 	char buffer[CHUNKSIZE];
-	do {
+	while(1) {
 		size_t read = fread(buffer, 1, CHUNKSIZE, inputFile);
 
 		size_t written = fwrite(buffer, 1, read, tempFile);
@@ -44,7 +44,9 @@ int removeBOM(const char *filePath) {
 
 			return ERRORWRITINGTEMP;
 		}
-	} while (!feof(inputFile));
+
+		if (feof(inputFile)) break;
+	};
 
 	if (fclose(tempFile)) return ERRORCLOSETEMP;
 	if (fclose(inputFile)) return ERRORCLOSEINPUT;
